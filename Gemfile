@@ -15,6 +15,9 @@ gem "turbo-rails"
 
 group :development, :test do
   gem "brakeman", require: false
+  gem "factory_bot"
+  gem "factory_bot_rails"
+  gem "faker"
   gem "rspec-rails"
 end
 
@@ -27,8 +30,4 @@ group :development do
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
-end
-
-group :test do
-  gem "capybara"
 end
