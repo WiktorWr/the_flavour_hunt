@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:17
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: the_flavour_hunt
+      POSTGRES_PASSWORD: the_flavour_hunt
+      POSTGRES_DB: the_flavour_hunt
+    ports:
+      - "5432:5432"
+  web:
+    build: .
+    environment:
+      - NODE_ENV=development
+    command: |
+      /bin/sh -c "
+      rm -f tmp/pids/server.pid &&
+      until pg_isready -h db -p 5432 -U the_flavour_hunt; do sleep 1; done &&
+      bundle exec rails db:create &&
+      bundle exec rails db:migrate &&
+      bundle exec rails db:seed &&
+      bin/dev
+      "
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+
+
+volumes:
+  db-data:
