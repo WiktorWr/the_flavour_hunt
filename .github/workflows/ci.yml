@@ -54,6 +54,9 @@ jobs:
           DATABASE_USER: the_flavour_hunt
           DATABASE_PASSWORD: the_flavour_hunt
 
+      - name: Precompile assets
+        run: RAILS_ENV=test bundle exec rails assets:precompile
+
       - name: Run RSpec tests
         run: RAILS_ENV=test bundle exec rspec
 
